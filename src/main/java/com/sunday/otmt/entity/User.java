@@ -56,6 +56,14 @@ public class User {
 	)
 	private List<Task> assignedTasks;
 
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+	@JoinTable(
+			name = "INVITATION",
+			joinColumns = { @JoinColumn(name = "InvitedPerson")},
+			inverseJoinColumns = { @JoinColumn(name = "InvitingTeam") }
+	)
+	private List<Team> invitingTeams;
+
 	public void addRegisteredTeam(Team team) {
 		if (registeredTeams == null){
 			registeredTeams = new ArrayList<>();

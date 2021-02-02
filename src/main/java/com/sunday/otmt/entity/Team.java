@@ -48,6 +48,16 @@ public class Team {
 	)
 	private List<User> teamMembers;
 
+	@JoinTable(
+			name = "INVITATION",
+			joinColumns = { @JoinColumn(name = "InvitingTeam") },
+			inverseJoinColumns = { @JoinColumn(name = "InvitedPerson") }
+	)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {
+			CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH
+	})
+	private Set<User> invitedPeople;
+
 	@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE,
 			org.hibernate.annotations.CascadeType.PERSIST})
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ownerTeam", orphanRemoval = true)
