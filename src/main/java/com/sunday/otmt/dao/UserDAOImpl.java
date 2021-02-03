@@ -33,7 +33,31 @@ public class UserDAOImpl implements GenericDAO<User> {
 	@Override
 	public User getEntityById(int id) {
 		Session session = sessionFactory.getCurrentSession();
-		User user = session.get(User.class, id);
+		User user = session.createQuery(
+				"select DISTINCT u from User u " +
+						"left join fetch u.registeredTeams " +
+						"where u.id =: userId", User.class)
+				.setParameter("userId", id)
+				.setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
+				.getSingleResult();
+
+		user = session.createQuery(
+				"select DISTINCT u from User u " +
+						"left join fetch u.assignedTasks " +
+						"where u.id =: userId", User.class)
+				.setParameter("userId", id)
+				.setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
+				.getSingleResult();
+
+
+		user = session.createQuery(
+				"select DISTINCT u from User u " +
+						"left join fetch u.invitingTeams " +
+						"where u.id =: userId", User.class)
+				.setParameter("userId", id)
+				.setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
+				.getSingleResult();
+
 		return user;
 	}
 
@@ -43,14 +67,24 @@ public class UserDAOImpl implements GenericDAO<User> {
 		Session session = sessionFactory.getCurrentSession();
 
 		List<User> users = session.createQuery(
-					"select DISTINCT u from User u " +
-						"left join fetch u.registeredTeams", User.class)
+				"select DISTINCT u from User u " +
+						"left join fetch u.registeredTeams ",  User.class)
 				.setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
 				.getResultList();
 
 		users = session.createQuery(
 				"select DISTINCT u from User u " +
-						"left join fetch u.assignedTasks", User.class)
+						"left join fetch u.assignedTasks " +
+						"where u in :users", User.class)
+				.setParameter("users", users)
+				.setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
+				.getResultList();
+
+		users = session.createQuery(
+				"select DISTINCT u from User u " +
+						"left join fetch u.invitingTeams " +
+						"where u in :users", User.class)
+				.setParameter("users", users)
 				.setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
 				.getResultList();
 
@@ -80,6 +114,14 @@ public class UserDAOImpl implements GenericDAO<User> {
 				"select DISTINCT u from User u " +
 				"left join fetch u.assignedTasks " +
 				"where u.id =: userId", User.class)
+				.setParameter("userId", user.getId())
+				.setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
+				.getSingleResult();
+
+		user = session.createQuery(
+				"select DISTINCT u from User u " +
+						"left join fetch u.invitingTeams " +
+						"where u.id =: userId", User.class)
 				.setParameter("userId", user.getId())
 				.setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
 				.getSingleResult();

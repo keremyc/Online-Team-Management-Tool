@@ -53,10 +53,8 @@ public class Team {
 			joinColumns = { @JoinColumn(name = "InvitingTeam") },
 			inverseJoinColumns = { @JoinColumn(name = "InvitedPerson") }
 	)
-	@ManyToMany(fetch = FetchType.LAZY, cascade = {
-			CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH
-	})
-	private Set<User> invitedPeople;
+	@ManyToMany(fetch = FetchType.LAZY)
+	private List<User> invitedPeople = new ArrayList<>();
 
 	@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE,
 			org.hibernate.annotations.CascadeType.PERSIST})
@@ -77,5 +75,8 @@ public class Team {
 		}
 		teamProjects.add(project);
 	}
-	
+
+	public void addToInvitations(User user) {
+		invitedPeople.add(user);
+	}
 }

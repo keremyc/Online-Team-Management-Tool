@@ -126,10 +126,9 @@
 						<div class="col-12 mb-2">
 							<ul class="list-group text-dark">
 								<!-- PROJECT MEMBERS -->
-								<li class="list-group-item border-left-secondary">Bilgehan Kaya</li>
-								<li class="list-group-item border-left-secondary">Nurullah Yüce</li>
-								<li class="list-group-item border-left-secondary">Mert Alper</li>
-								<li class="list-group-item border-left-secondary">Selim Tosyalı</li>
+								<c:forEach var="member" items="${projectMembers}">
+									<li class="list-group-item border-left-secondary">${member.firstName} ${member.lastName}</li>
+								</c:forEach>
 							</ul>
 						</div>
 					</div>

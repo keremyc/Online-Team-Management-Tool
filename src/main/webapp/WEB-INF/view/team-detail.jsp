@@ -102,7 +102,7 @@
                             <div class="col-12">
                                 <div class="d-sm-flex justify-content-between align-items-center mb-4">
                                     <h5 class="mb-0">Team Members</h5>
-                                    <button type="button" class="btn btn-primary btn-sm d-none d-sm-inline-block" data-toggle="modal" data-target="#">Send Invitation</button>
+                                    <button type="button" class="btn btn-primary btn-sm d-none d-sm-inline-block" data-toggle="modal" data-target="#inviteModal">Send Invitation</button>
                                 </div>
                             </div>
                             <div class="col-12 mb-2">
@@ -181,6 +181,37 @@
                 </div>
             </div>
             <!-- Create Project Modal -->
+
+            <!-- Invite Model -->
+            <div class="modal fade bd-example-modal-lg" id="inviteModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="card shadow-lg o-hidden border-0 my-2">
+                                    <div class="card-body p-0">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="p-5">
+                                                    <div class="text-center">
+                                                        <h4 class="text-dark mb-4">Invite people to your team!</h4>
+                                                    </div>
+                                                    <form:form action="${pageContext.request.contextPath}/user/invite" method="POST" class="user">
+                                                        <div class="form-group"><strong>User Name* </strong><input class="form-control form-control-user" type="text" name="userName" required="true"></div>
+                                                        <div class="form-group">
+                                                            <button class="btn btn-primary btn-block text-white btn-user" type="submit">Invite!</button>
+                                                    </form:form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Invite Modal  End -->
 
             <footer class="bg-white sticky-footer">
                 <div class="container my-auto">

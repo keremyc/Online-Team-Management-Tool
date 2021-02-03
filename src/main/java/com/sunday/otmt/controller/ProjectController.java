@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -93,9 +94,17 @@ public class ProjectController {
             return "redirect:/home";
         
         Project project = projectService.getById(projectId);
-        
-        session.setAttribute("currentProject", project);
+        List<User> projectMembers = new ArrayList<>();
+        for (Task task: project.getProjectTasks()){
+            for (User user: task.getRespondents()){
+                if (!(projectMembers.contains(user))){
+                    projectMembers.add(user);
+                }
+            }
+        }
 
+        session.setAttribute("currentProject", project);
+        model.addAttribute("projectMembers", projectMembers);
         // TODO: PRoject MEmbers inside Session
 
 		model.addAttribute("task", new Task());

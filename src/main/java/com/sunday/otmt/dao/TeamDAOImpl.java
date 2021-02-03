@@ -47,6 +47,15 @@ public class TeamDAOImpl implements GenericDAO<Team> {
 				.setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
 				.getSingleResult();
 
+
+		team = session.createQuery(
+				"select DISTINCT t from Team t " +
+						"left join fetch t.invitedPeople " +
+						"where t.id =: id", Team.class)
+				.setParameter("id", id)
+				.setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
+				.getSingleResult();
+
 		return team;
 	}
 
@@ -61,7 +70,13 @@ public class TeamDAOImpl implements GenericDAO<Team> {
 
 		teams = session.createQuery(
 				"select DISTINCT t from Team t " +
-						"left join fetch t.teamProjects", Team.class)
+						"left join fetch t.teamProjects ", Team.class)
+				.setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
+				.getResultList();
+
+		teams = session.createQuery(
+				"select DISTINCT t from Team t " +
+						"left join fetch t.invitedPeople", Team.class)
 				.setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
 				.getResultList();
 

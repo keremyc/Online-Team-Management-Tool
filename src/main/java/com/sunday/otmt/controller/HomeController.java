@@ -38,6 +38,11 @@ public class HomeController {
 		}
 		session.setAttribute("currentUser", user);
 
+		for (Team team:
+			 user.getInvitingTeams()) {
+			System.out.println(team);
+		}
+
 		Team team = new Team();
 		model.addAttribute("team", team);
 		System.out.println("Deneme");

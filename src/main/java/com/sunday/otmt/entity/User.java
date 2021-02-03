@@ -21,7 +21,7 @@ public class User {
 	@Column(name = "UserId")
 	private int id;
 
-	@Column(name = "UserName")
+	@Column(name = "UserName", unique = true)
 	private String userName;
 
 	@Column(name = "FirstName")
@@ -56,10 +56,10 @@ public class User {
 	)
 	private List<Task> assignedTasks;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "INVITATION",
-			joinColumns = { @JoinColumn(name = "InvitedPerson")},
+			joinColumns = { @JoinColumn(name = "InvitedPerson") },
 			inverseJoinColumns = { @JoinColumn(name = "InvitingTeam") }
 	)
 	private List<Team> invitingTeams;
@@ -78,4 +78,7 @@ public class User {
 		this.assignedTasks.add(newTask);
 	}
 
+	public void addToInvitation(Team team) {
+		invitingTeams.add(team);
+	}
 }
